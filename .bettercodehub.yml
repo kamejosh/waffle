@@ -1,5 +1,3 @@
-component_depth: 3
+component_depth: 1
 languages:
 - cpp
-exlude:
-- /lib/LinkedList/
