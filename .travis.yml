@@ -89,4 +89,4 @@
      - platformio update
 
  script:
-     - platformio ci --project-conf=platformio.ini
+     - platformio ci --board=nodemcuv2 --board=uno --board=megaatmega2560 --board=feather32u4
