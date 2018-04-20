@@ -89,4 +89,4 @@
      - platformio update
 
  script:
-     - platformio ci --project-conf=/platformio.ini
+     - platformio ci --project-conf=platformio.ini
