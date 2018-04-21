@@ -1,7 +1,7 @@
 
 #ifdef AVR
 
-#include "Wifi.h"
+#include "WiFi.h"
 #include "IWiFi.h"
 
 namespace waffle
