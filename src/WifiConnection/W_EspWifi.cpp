@@ -4,7 +4,7 @@
 #include <ESP8266WiFi.h>
 
 //project includes
-#include "ESP2866WiFi.h"
+#include "W_EspWiFi.h"
 
 //set project namespace
 using namespace waffle;
@@ -12,22 +12,22 @@ using namespace waffle;
 //class specific defines
 static const unsigned int MAX_CONNECTION_ATTEMPTS = 10;
 
-ESP2866WiFi::ESP2866WiFi() : IWiFiClient()
+EspWiFi::EspWiFi() : IWiFi()
 {
     m_client = new WiFiClient();
 }
 
-ESP2866WiFi::ESP2866WiFi(char* ssid, char* pwd) : IWiFiClient(ssid, pwd)
+EspWiFi::EspWiFi(char* ssid, char* pwd) : IWiFi(ssid, pwd)
 {
     m_client = new WiFiClient();
 }
 
-ESP2866WiFi::~ESP2866WiFi()
+EspWiFi::~EspWiFi()
 {
     delete m_client;
 }
 
-bool ESP2866WiFi::connect()
+bool EspWiFi::connect()
 {
     Serial.print("Connecting to WiFi..");
     WiFi.begin(m_ssid, m_pwd);
@@ -50,11 +50,11 @@ bool ESP2866WiFi::connect()
     return true;
 }
 
-void ESP2866WiFi::disconnect()
+void EspWiFi::disconnect()
 {
 }
 
-bool ESP2866WiFi::connectToServer(char* server)
+bool EspWiFi::connectToServer(char* server)
 {
     Serial.println("Connecting to server...");
 
@@ -70,12 +70,12 @@ bool ESP2866WiFi::connectToServer(char* server)
     }
 }
 
-void ESP2866WiFi::sendRequest(char* request)
+void EspWiFi::sendRequest(char* request)
 {
     m_client->print(request);
 }
 
-char* ESP2866WiFi::receiveResponse(unsigned int& responseLength)
+char* EspWiFi::receiveResponse(unsigned int& responseLength)
 {
     Serial.println("Reading message response...");
     responseLength = m_client->available();

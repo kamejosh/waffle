@@ -1,4 +1,5 @@
 #ifdef AVR
+
 //project includes
 #include "W_ArduinoWifi.h"
 
@@ -43,48 +44,6 @@ bool ArduinoWiFi::connect()
 
     Serial.println("\nConnection to WiFi successful!");
     return true;
-}
-
-void ArduinoWiFi::disconnect()
-{
-}
-
-bool ArduinoWiFi::connectToServer(char* server)
-{
-    Serial.println("Connecting to server...");
-
-    if(m_client->connect(server, 80))
-    {
-      Serial.println("Connection to Server successful!");
-      return true;
-    }
-    else
-    {
-      Serial.println("Connection to Server failed!");
-      return false;
-    }
-}
-
-void ArduinoWiFi::sendRequest(char* request)
-{
-    m_client->print(request);
-}
-
-char* ArduinoWiFi::receiveResponse(unsigned int& responseLength)
-{
-    Serial.println("Reading message response...");
-    responseLength = m_client->available();
-    Serial.print("Message length: ");
-    Serial.println(responseLength);
-    char* message = new char[responseLength];
-    for(unsigned int n = 0; n < responseLength; ++n)
-    {
-        char* current = (message+n);
-        *current = m_client->read();
-        Serial.println(current);
-    }
-    Serial.println(message);
-    return message;
 }
 
 #endif

@@ -1,3 +1,4 @@
+
 #ifdef AVR
 
 #include "Wifi.h"
@@ -5,23 +6,23 @@
 
 namespace waffle
 {
-    class ArduinoWiFiClient : IWiFi
+    class ArduinoWiFi : IWiFi
     {
         public:
         // standard constructor
-		ArduinoWiFiClient();
+		ArduinoWiFi();
 
         // constructor with ssid and password to allow a connection
-		ArduinoWiFiClient(char* ssid, char* pwd);
+		ArduinoWiFi(char* ssid, char* pwd);
         
         // destructor
-        virtual ~ArduinoWiFiClient();
+        virtual ~ArduinoWiFi();
 
         // connect to the set WiFi, returns true on success, returns false on fail.
-        virtual bool connectWifi();
+        virtual bool connect();
 
         // disconnect from WiFi
-        virtual void disconnectWifi();
+        virtual void disconnect();
 
         // connect to a server, returns true on success, returns false on fail.
         virtual bool connectToServer(char* server);

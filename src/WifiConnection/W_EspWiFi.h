@@ -5,17 +5,17 @@
 
 namespace waffle
 {
-    class ESP2866WiFi : IWiFi
+    class EspWiFi : IWiFi
     {
         public:
         // standard constructor
-		ESP2866WiFi();
+		EspWiFi();
 
         // constructor with ssid and password to allow a connection
-		ESP2866WiFi(char* ssid, char* pwd);
+		EspWiFi(char* ssid, char* pwd);
         
         // destructor
-        virtual ~ESP2866WiFi();
+        virtual ~EspWiFi();
 
         // connect to the set WiFi, returns true on success, returns false on fail.
         virtual bool connect();
