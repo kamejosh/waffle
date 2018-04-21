@@ -1,26 +1,36 @@
+#include <board.h>
+
 namespace waffle
 {
-    class IWiFiClient
+    class IWiFi
     {
         public:
         // standard constructor
-		IWiFiClient() : m_ssid (nullptr), m_pwd(nullptr){};
+		IWiFi() : m_ssid (nullptr), m_pwd(nullptr){};
 
         // constructor with ssid and password to allow a connection
-		IWiFiClient(char* ssid, char* pwd) : m_ssid(ssid), m_pwd(pwd) {};
+		IWiFi(char* ssid, char* pwd) : m_ssid(ssid), m_pwd(pwd) {};
         
         // destructor
-		virtual ~IWiFiClient()
+		virtual ~IWiFi()
 		{
 			delete[]    m_ssid;
 			delete[]    m_pwd;
 		};
 
         // connect to the set WiFi, returns true on success, returns false on fail.
-        virtual bool connectWiFi() = 0;
+        virtual bool connect() = 0;
 
         // disconnect from WiFi
-        virtual void disconnectWiFi() = 0;
+        virtual void disconnect(bool wifioff = false) = 0;
+
+        // configure Access Point
+        virtual void softAPConfig(IPAddress local_ip, IPAddress gateway, IPAddress subnet) = 0;
+
+        virtual bool softAP(const char* ssid, const char* passphrase = NULL, int channel = 1, int ssid_hidden = 0, int max_connection = 4) = 0;
+
+        // disconnect Access Point
+        virtual void softAPdisconnect(bool wiifoff = false) = 0;
 
         // connect to a server, returns true on success, returns false on fail.
         virtual bool connectToServer(char* server) = 0;

@@ -1,8 +1,10 @@
+#ifndef AVR
+
 //library includes
 #include <ESP8266WiFi.h>
 
 //project includes
-#include "W_ESP2866WiFiClient.h"
+#include "ESP2866WiFi.h"
 
 //set project namespace
 using namespace waffle;
@@ -10,22 +12,22 @@ using namespace waffle;
 //class specific defines
 static const unsigned int MAX_CONNECTION_ATTEMPTS = 10;
 
-ESP2866WiFiClient::ESP2866WiFiClient() : IWiFiClient()
+ESP2866WiFi::ESP2866WiFi() : IWiFiClient()
 {
-    m_client    = new WiFiClient();
+    m_client = new WiFiClient();
 }
 
-ESP2866WiFiClient::ESP2866WiFiClient(char* ssid, char* pwd) : IWiFiClient(ssid, pwd)
+ESP2866WiFi::ESP2866WiFi(char* ssid, char* pwd) : IWiFiClient(ssid, pwd)
 {
-    m_client    = new WiFiClient();
+    m_client = new WiFiClient();
 }
 
-ESP2866WiFiClient::~ESP2866WiFiClient()
+ESP2866WiFi::~ESP2866WiFi()
 {
-    delete      m_client;
+    delete m_client;
 }
 
-bool ESP2866WiFiClient::connectWifi()
+bool ESP2866WiFi::connect()
 {
     Serial.print("Connecting to WiFi..");
     WiFi.begin(m_ssid, m_pwd);
@@ -33,7 +35,7 @@ bool ESP2866WiFiClient::connectWifi()
     unsigned int connectionAttempts = 0;
     while (WiFi.status() != WL_CONNECTED)
     {
-      delay(500);
+      //delay(500);
       Serial.print(".");
       ++connectionAttempts;
 
@@ -48,11 +50,11 @@ bool ESP2866WiFiClient::connectWifi()
     return true;
 }
 
-void ESP2866WiFiClient::disconnectWifi()
+void ESP2866WiFi::disconnect()
 {
 }
 
-bool ESP2866WiFiClient::connectToServer(char* server)
+bool ESP2866WiFi::connectToServer(char* server)
 {
     Serial.println("Connecting to server...");
 
@@ -68,12 +70,12 @@ bool ESP2866WiFiClient::connectToServer(char* server)
     }
 }
 
-void ESP2866WiFiClient::sendRequest(char* request)
+void ESP2866WiFi::sendRequest(char* request)
 {
     m_client->print(request);
 }
 
-char* ESP2866WiFiClient::receiveResponse(unsigned int& responseLength)
+char* ESP2866WiFi::receiveResponse(unsigned int& responseLength)
 {
     Serial.println("Reading message response...");
     responseLength = m_client->available();
@@ -90,3 +92,4 @@ char* ESP2866WiFiClient::receiveResponse(unsigned int& responseLength)
     return message;
 }
 
+#endif
