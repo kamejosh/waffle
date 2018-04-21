@@ -32,9 +32,6 @@ namespace waffle
 
         // receives a response from the server currently connected to
         virtual char* receiveResponse(unsigned int& responseLength);
-
-        //Library WiFi-Client
-        WiFiClass* m_client;
     };
 }
 
