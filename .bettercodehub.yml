@@ -2,3 +2,4 @@ languages:
 - cpp
 component_depth: 6
 exclude:
+- \/src\/WifiConnection\/.*
