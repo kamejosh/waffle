@@ -2,6 +2,7 @@
 	This file bootstraps the framework. Do not change the code here.
 	Add your code to "/src/app/..."
 */
+#include "board.h"
 #include <Arduino.h>
 #include "framework/app/setup.h"
 
