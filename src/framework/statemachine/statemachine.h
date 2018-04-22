@@ -8,7 +8,7 @@ class StateMachine : public State {
 
 	protected:
 		LinkedList<State*> states;
-		unsigned int currentStateId;
+		int currentStateId;
 
 	public:
 		StateMachine();
@@ -19,6 +19,7 @@ class StateMachine : public State {
 
 		virtual int registerState( State *state );
 		virtual void switchToState(int stateId);
+		virtual int getCurrentStateId();
 
 };
 

@@ -45,8 +45,3 @@
     #endif
 
 #endif
-
-#if defined(AVR)
-	#warning "AVR is defined!"
-	#pragma message ( "AVR is defined!" )
-#endif

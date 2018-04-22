@@ -1,7 +1,7 @@
 #include "statemachine.h"
 
 StateMachine::StateMachine(){
-	this->currentStateId = 0;
+	this->currentStateId = -1;
 }
 
 StateMachine::~StateMachine(){
@@ -35,8 +35,14 @@ int StateMachine::registerState( State *state ){
 
 void StateMachine::switchToState( int stateId ){
 	if( stateId >= 0 && stateId < this->states.size() ){
-		this->states.get( this->currentStateId )->onExit();
+		if( this->currentStateId > -1 ){
+			this->states.get( this->currentStateId )->onExit();
+		}
 		this->currentStateId = stateId;
 		this->states.get( this->currentStateId )->onEnter();
 	}
+}
+
+int StateMachine::getCurrentStateId(){
+	return this->currentStateId;
 }
