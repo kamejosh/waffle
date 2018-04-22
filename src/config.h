@@ -1,5 +1,14 @@
 #include <Arduino.h>
 
+// You can replace this with a custom implementation
+#ifdef AVR
+	#define WIFI_CLASS waffle::ArduinoWiFi
+	#define WIFI_HEADER_FILE "../../WifiConnection/W_ArduinoWifi.h"
+#else
+	#define WIFI_CLASS waffle::EspWiFi
+	#define WIFI_HEADER_FILE "../../WifiConnection/W_EspWiFi.h"
+#endif
+
 // Hotspot specific settings
 #define HOTSPOT_SSID "Waffle"
 #define HOTSPOT_PASSWD "PrettyFlyForAWiFi"

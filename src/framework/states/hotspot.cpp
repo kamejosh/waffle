@@ -3,6 +3,7 @@
 Hotspot::Hotspot(){
 	this->exitStateTimer = new Timer(EXIT_HOTSPOT_AFTER_MILLISECONDS_IDLE);
 	this->connected = false;
+	this->wifi = new WIFI_CLASS();
 }
 
 Hotspot::~Hotspot(){

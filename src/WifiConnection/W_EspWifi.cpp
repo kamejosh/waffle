@@ -1,7 +1,5 @@
+// only compile this on esp boards (currently NON-AVR)
 #ifndef AVR
-
-//library includes
-#include <ESP8266WiFi.h>
 
 //project includes
 #include "W_EspWiFi.h"
@@ -50,46 +48,18 @@ bool EspWiFi::connect()
     return true;
 }
 
-void EspWiFi::disconnect()
+void EspWiFi::disconnect(bool wifioff)
 {
+
 }
 
-bool EspWiFi::connectToServer(char* server)
-{
-    Serial.println("Connecting to server...");
+bool EspWiFi::softAP(const char* ssid, const char* passphrase, int channel, int ssid_hidden, int max_connection){
+	return true; // TODO
+};
 
-    if(m_client->connect(server, 80))
-    {
-      Serial.println("Connection to Server successful!");
-      return true;
-    }
-    else
-    {
-      Serial.println("Connection to Server failed!");
-      return false;
-    }
-}
-
-void EspWiFi::sendRequest(char* request)
-{
-    m_client->print(request);
-}
-
-char* EspWiFi::receiveResponse(unsigned int& responseLength)
-{
-    Serial.println("Reading message response...");
-    responseLength = m_client->available();
-    Serial.print("Message length: ");
-    Serial.println(responseLength);
-    char* message = new char[responseLength];
-    for(unsigned int n = 0; n < responseLength; ++n)
-    {
-        char* current = (message+n);
-        *current = m_client->read();
-        Serial.println(current);
-    }
-    Serial.println(message);
-    return message;
-}
+// disconnect Access Point
+void EspWiFi::softAPdisconnect(bool wiifoff) {
+	 // TODO
+};
 
 #endif

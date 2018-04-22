@@ -2,14 +2,17 @@
 	This file bootstraps the framework. Do not change the code here.
 	Add your code to "/src/app/..."
 */
+#include "WifiConnection/board.h"
 #include <Arduino.h>
+#include "framework/app/setup.h"
 
 // keep track of millis
 unsigned long lastMillis = 0;
 
 void setup() {
 
-	
+	// call user setup code here
+
 
 	// setup config and load data
 	//persistentMemory = new persistentMemory();

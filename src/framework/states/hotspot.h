@@ -1,8 +1,12 @@
 #include <Arduino.h>
 
+#include "../../WifiConnection/IWiFi.h"
+
 #include "../statemachine/state.h"
 #include "../../config.h"
 #include "../helpers/timer.h"
+
+#include WIFI_HEADER_FILE
 
 #ifndef __STATE_HOTSPOT_H
 #define __STATE_HOTSPOT_H
@@ -16,7 +20,7 @@ class Hotspot : public State {
 		bool startHotspot();
 		bool stopHotspot();
 		Timer *exitStateTimer;
-		// ESP8266WebServer *server; // TODO change to generic server implementation
+		waffle::IWiFi *wifi;
 		bool connected;
 
 	public:

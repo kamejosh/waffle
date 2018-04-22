@@ -1,11 +1,9 @@
-#ifndef AVR
-
-#include "ESP8266WiFi.h"
+#include <ESP8266WiFi.h>
 #include "IWiFi.h"
 
 namespace waffle
 {
-    class EspWiFi : IWiFi
+    class EspWiFi : public IWiFi
     {
         public:
         // standard constructor
@@ -13,28 +11,26 @@ namespace waffle
 
         // constructor with ssid and password to allow a connection
 		EspWiFi(char* ssid, char* pwd);
-        
+
         // destructor
-        virtual ~EspWiFi();
+        ~EspWiFi();
 
         // connect to the set WiFi, returns true on success, returns false on fail.
-        virtual bool connect();
+        bool connect();
 
         // disconnect from WiFi
-        virtual void disconnect();
+        void disconnect(bool wifioff);
 
-        // connect to a server, returns true on success, returns false on fail.
-        virtual bool connectToServer(char* server);
+		bool softAP(const char* ssid, const char* passphrase, int channel, int ssid_hidden, int max_connection);
 
-        // sends a request to the server currently connected to
-        virtual void sendRequest(char* request);
+		// disconnect Access Point
+		void softAPdisconnect(bool wiifoff);
 
-        // receives a response from the server currently connected to
-        virtual char* receiveResponse(unsigned int& responseLength);
-
+protected:
         //Library WiFi-Client
         WiFiClient* m_client;
+
+
+
     };
 }
-
-#endif
