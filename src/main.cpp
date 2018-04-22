@@ -2,7 +2,7 @@
 	This file bootstraps the framework. Do not change the code here.
 	Add your code to "/src/app/..."
 */
-#include "WifiConnection/board.h"
+#include "board.h"
 #include <Arduino.h>
 #include "framework/app/setup.h"
 #include "framework/statemachine/statemachine.h"
