@@ -5,9 +5,18 @@
 #include "WifiConnection/board.h"
 #include <Arduino.h>
 #include "framework/app/setup.h"
+#include "framework/statemachine/statemachine.h"
+#include "framework/states/hotspot.h"
+#include "app/app.h"
 
 // keep track of millis
 unsigned long lastMillis = 0;
+
+StateMachine *mainStatemachine;
+int stateIds[2];
+
+#define STATE_HOTSPOT stateIds[0]
+#define STATE_APP stateIds[1]
 
 void setup() {
 
@@ -17,6 +26,10 @@ void setup() {
 	// setup config and load data
 	//persistentMemory = new persistentMemory();
 	//persistentMemory->load(); // load from flash or EEPROM memory
+
+	mainStatemachine = new StateMachine();
+	STATE_HOTSPOT = mainStatemachine->registerState( new Hotspot() );
+	STATE_APP = mainStatemachine->registerState( new App() );
 
 	// avoid instant self check timeout if upload (or, in theory, setup)
 	// takes longer than the defined timeout delay
