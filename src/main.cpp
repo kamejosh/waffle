@@ -2,7 +2,6 @@
 	This file bootstraps the framework. Do not change the code here.
 	Add your code to "/src/app/..."
 */
-#include "WifiConnection/board.h"
 #include <Arduino.h>
 #include "framework/app/setup.h"
 
@@ -24,5 +23,18 @@ void setup() {
 }
 
 void loop() {
+
+	// get millis since last loop start
+		unsigned long currentMillis = millis();
+		unsigned long millisSinceLastTick = 0;
+		if( currentMillis < lastMillis ){
+			// this situation happens only when millis are overflowing
+			unsigned long maxMillis = -1;
+			unsigned long millisBeforeOverflow = maxMillis - lastMillis;
+			millisSinceLastTick = currentMillis + millisBeforeOverflow;
+		}else{
+			millisSinceLastTick = currentMillis - lastMillis;
+		}
+		lastMillis = currentMillis;
 
 }
