@@ -3,6 +3,7 @@ using namespace app;
 
 void setup () {
 
-	// put your code here
+	// put all code that initializes your hardware here
+	// e.g. pinMode
 
 }

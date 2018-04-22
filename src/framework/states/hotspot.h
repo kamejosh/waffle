@@ -24,7 +24,7 @@ class Hotspot : public State {
 		bool connected;
 
 	public:
-		Hotspot( /* ESP8266WebServer *server */ );
+		Hotspot();
 		~Hotspot();
 		void onEnter();
 		void onExit();
