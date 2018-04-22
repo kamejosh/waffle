@@ -29,8 +29,7 @@
          - "~/.platformio"
 
  env:
-     - PLATFORMIO_CI_SRC=src/
-     - PLATFORMIO_CI_SRC=lib/
+     - PLATFORMIO_CI_SRC=/
 
  install:
      - pip install -U platformio
