@@ -36,4 +36,4 @@
      - platformio update
 
  script:
-     - platformio ci --lib="/lib/LinkedList/" --board=nodemcuv2 --board=uno --board=megaatmega2560 --board=feather32u4
+     - platformio ci --lib="lib/LinkedList/" --board=nodemcuv2 --board=uno --board=megaatmega2560 --board=feather32u4
