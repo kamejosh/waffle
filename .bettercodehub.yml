@@ -2,4 +2,4 @@ languages:
 - cpp
 component_depth: 6
 exlude:
-- /lib/LinkedList/.*
+- /lib/.*
