@@ -1,4 +1,7 @@
-#include "board.h"
+#ifndef WAFFLE_WIFI
+#define WAFFLE_WIFI
+
+#include "IPAddress.h"
 
 namespace waffle
 {
@@ -6,49 +9,39 @@ namespace waffle
     {
         public:
         // standard constructor
-		IWiFi() : m_ssid (nullptr), m_pwd(nullptr){};
+		IWiFi(){};
 
-        // constructor with ssid and password to allow a connection
-		IWiFi(char* ssid, char* pwd) : m_ssid(ssid), m_pwd(pwd) {};
-        
         // destructor
-		virtual ~IWiFi()
-		{
-			delete[]    m_ssid;
-			delete[]    m_pwd;
-		};
-
-        // connect to the set WiFi, returns true on success, returns false on fail.
-        virtual bool connect() = 0;
+		virtual ~IWiFi(){};
 
         // disconnect from WiFi
         virtual void disconnect(bool wifioff = false) = 0;
 
         // configure Access Point
-        virtual void softAPConfig(IPAddress local_ip, IPAddress gateway, IPAddress subnet) = 0;
+        virtual bool softAPConfig(IPAddress local_ip, IPAddress gateway, IPAddress subnet) = 0;
 
-        virtual bool softAP(const char* ssid, const char* passphrase = NULL, int channel = 1, int ssid_hidden = 0, int max_connection = 4) = 0;
+        virtual bool softAP(const char* ssid, const char* passphrase, int channel = 1, int ssid_hidden = 0, int max_connection = 4) = 0;
 
         // disconnect Access Point
-        virtual void softAPdisconnect(bool wiifoff = false) = 0;
+        virtual bool softAPdisconnect(bool wiifoff = false) = 0;
 
-        // connect to a server, returns true on success, returns false on fail.
-        virtual bool connectToServer(char* server) = 0;
+        virtual String SSID(uint8_t networkItem) = 0;
 
-        // sends a request to the server currently connected to
-        virtual void sendRequest(char* request) = 0;
+        virtual int8_t scanNetworks() = 0;
 
-        // receives a response from the server currently connected to
-        virtual char* receiveResponse(unsigned int& responseLength) = 0;
+        virtual void makeServer(int port = 80) = 0;
 
-        // set the SSID
-		virtual void setSSID(char* ssid) { m_ssid = ssid; };
+        virtual void beginServer() = 0;
 
-        // set the password
-		virtual void setPassword(char* pwd) { m_pwd = pwd; };
+        virtual void stopServer() = 0;
 
-        protected:
-        char* m_ssid;
-        char* m_pwd;
+        virtual void serverHandleClient() = 0;
+
+        virtual void serverOn(const String &uri, int method, int code, const char* contentType, const char* content) = 0;
+        virtual void serverOnPost(const String &uri, int method, int code, const char* contentType, const char* content) = 0;
+        virtual void serverOnConfig(const String &uri, int method, int code, const char* contentType, const char* content) = 0;
+        virtual void serverOnNotFound() = 0;
     };
 }
+
+#endif

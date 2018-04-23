@@ -1,40 +1,47 @@
-#ifndef AVR
-
-#include "ESP8266WiFi.h"
+#include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
 #include "IWiFi.h"
 
 namespace waffle
 {
-    class EspWiFi : IWiFi
+    class EspWiFi : public IWiFi
     {
         public:
         // standard constructor
 		EspWiFi();
 
-        // constructor with ssid and password to allow a connection
-		EspWiFi(char* ssid, char* pwd);
-        
         // destructor
-        virtual ~EspWiFi();
-
-        // connect to the set WiFi, returns true on success, returns false on fail.
-        virtual bool connect();
+        ~EspWiFi();
 
         // disconnect from WiFi
-        virtual void disconnect();
+        void disconnect(bool wifioff);
 
-        // connect to a server, returns true on success, returns false on fail.
-        virtual bool connectToServer(char* server);
+		bool softAP(const char* ssid, const char* passphrase, int channel, int ssid_hidden, int max_connection);
 
-        // sends a request to the server currently connected to
-        virtual void sendRequest(char* request);
+        // configure Access Point
+        bool softAPConfig(IPAddress local_ip, IPAddress gateway, IPAddress subnet);
 
-        // receives a response from the server currently connected to
-        virtual char* receiveResponse(unsigned int& responseLength);
+		// disconnect Access Point
+		bool softAPdisconnect(bool wifioff);
 
-        //Library WiFi-Client
-        WiFiClient* m_client;
+        String SSID(uint8_t networkItem);
+
+        int8_t scanNetworks();
+
+        void makeServer(int port);
+
+        void beginServer();
+
+        void stopServer();
+
+        void serverHandleClient();
+
+        void serverOn(const String &uri, int method, int code, const char* contentType, const char* content);
+        void serverOnPost(const String &uri, int method, int code, const char* contentType, const char* content);
+        void serverOnConfig(const String &uri, int method, int code, const char* contentType, const char* content);
+        void serverOnNotFound();
+
+        protected:
+        ESP8266WebServer *server;
     };
 }
-
-#endif

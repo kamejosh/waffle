@@ -1,7 +1,5 @@
+// only compile this on esp boards (currently NON-AVR)
 #ifndef AVR
-
-//library includes
-#include <ESP8266WiFi.h>
 
 //project includes
 #include "W_EspWiFi.h"
@@ -9,87 +7,85 @@
 //set project namespace
 using namespace waffle;
 
-//class specific defines
-static const unsigned int MAX_CONNECTION_ATTEMPTS = 10;
+EspWiFi::EspWiFi() : IWiFi(){}
 
-EspWiFi::EspWiFi() : IWiFi()
-{
-    m_client = new WiFiClient();
+EspWiFi::~EspWiFi(){
+    delete(server);
 }
 
-EspWiFi::EspWiFi(char* ssid, char* pwd) : IWiFi(ssid, pwd)
+void EspWiFi::disconnect(bool wifioff)
 {
-    m_client = new WiFiClient();
+    WiFi.disconnect(wifioff);
 }
 
-EspWiFi::~EspWiFi()
+bool EspWiFi::softAP(const char* ssid, const char* passphrase, int channel, int ssid_hidden, int max_connection){
+	return WiFi.softAP(ssid, passphrase, channel, ssid_hidden, max_connection);
+};
+
+bool EspWiFi::softAPConfig(IPAddress local_ip, IPAddress gateway, IPAddress subnet)
 {
-    delete m_client;
+    return WiFi.softAPConfig(local_ip, gateway, subnet);
 }
 
-bool EspWiFi::connect()
+// disconnect Access Point
+bool EspWiFi::softAPdisconnect(bool wifioff) {
+	return WiFi.softAPdisconnect(wifioff);
+};
+
+String EspWiFi::SSID(uint8_t networkItem)
 {
-    Serial.print("Connecting to WiFi..");
-    WiFi.begin(m_ssid, m_pwd);
-
-    unsigned int connectionAttempts = 0;
-    while (WiFi.status() != WL_CONNECTED)
-    {
-      //delay(500);
-      Serial.print(".");
-      ++connectionAttempts;
-
-      if(connectionAttempts >= MAX_CONNECTION_ATTEMPTS)
-      {
-        Serial.println("Maximum number of connection attempts exceeded. Abort.");
-        return false;
-      }
-    }
-
-    Serial.println("\nConnection to WiFi successful!");
-    return true;
+    return WiFi.SSID(networkItem);
 }
 
-void EspWiFi::disconnect()
+int8_t EspWiFi::scanNetworks()
 {
+    return WiFi.scanNetworks();
 }
 
-bool EspWiFi::connectToServer(char* server)
+void EspWiFi::makeServer(int port)
 {
-    Serial.println("Connecting to server...");
-
-    if(m_client->connect(server, 80))
-    {
-      Serial.println("Connection to Server successful!");
-      return true;
-    }
-    else
-    {
-      Serial.println("Connection to Server failed!");
-      return false;
-    }
+    this->server = new ESP8266WebServer(port);
 }
 
-void EspWiFi::sendRequest(char* request)
+void EspWiFi::beginServer()
 {
-    m_client->print(request);
+    this->server->begin();
 }
 
-char* EspWiFi::receiveResponse(unsigned int& responseLength)
+void EspWiFi::stopServer()
 {
-    Serial.println("Reading message response...");
-    responseLength = m_client->available();
-    Serial.print("Message length: ");
-    Serial.println(responseLength);
-    char* message = new char[responseLength];
-    for(unsigned int n = 0; n < responseLength; ++n)
-    {
-        char* current = (message+n);
-        *current = m_client->read();
-        Serial.println(current);
-    }
-    Serial.println(message);
-    return message;
+    this->server->stop();
+}
+
+void EspWiFi::serverHandleClient()
+{
+    this->server->handleClient();
+}
+
+void EspWiFi::serverOn(const String &uri, int method, int code, const char* contentType, const char* content)
+{
+    this->server->on(uri, HTTPMethod(method), [&](){
+        this->server->send(code, contentType, content);
+    });
+}
+
+void EspWiFi::serverOnPost(const String &uri, int method, int code, const char* contentType, const char* content)
+{
+    this->server->on(uri, HTTPMethod(method), [&](){
+        this->server->send_P(code, contentType, content);
+    });
+}
+
+void EspWiFi::serverOnConfig(const String &uri, int method, int code, const char* contentType, const char* content)
+{
+
+}
+
+void EspWiFi::serverOnNotFound()
+{
+    this->server->onNotFound([this](){
+		this->server->send(404, "text/plain", "404 - Not found");
+	});
 }
 
 #endif

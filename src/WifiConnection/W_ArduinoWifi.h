@@ -1,38 +1,47 @@
+#include <WiFi.h>
 
-#ifdef AVR
-
-#include "WiFi.h"
 #include "IWiFi.h"
 
 namespace waffle
 {
-    class ArduinoWiFi : IWiFi
+    class ArduinoWiFi : public IWiFi
     {
         public:
         // standard constructor
 		ArduinoWiFi();
 
-        // constructor with ssid and password to allow a connection
-		ArduinoWiFi(char* ssid, char* pwd);
-        
         // destructor
         virtual ~ArduinoWiFi();
 
-        // connect to the set WiFi, returns true on success, returns false on fail.
-        virtual bool connect();
+		// disconnect from WiFi
+        void disconnect(bool wifioff);
 
-        // disconnect from WiFi
-        virtual void disconnect();
+		bool softAP(const char* ssid, const char* passphrase, int channel, int ssid_hidden, int max_connection);
 
-        // connect to a server, returns true on success, returns false on fail.
-        virtual bool connectToServer(char* server);
+        // configure Access Point
+        bool softAPConfig(IPAddress local_ip, IPAddress gateway, IPAddress subnet);
 
-        // sends a request to the server currently connected to
-        virtual void sendRequest(char* request);
+		// disconnect Access Point
+		bool softAPdisconnect(bool wifioff);
 
-        // receives a response from the server currently connected to
-        virtual char* receiveResponse(unsigned int& responseLength);
+        String SSID(uint8_t networkItem);
+
+        int8_t scanNetworks();
+
+        void makeServer(int port);
+
+        void beginServer();
+
+        void stopServer();
+
+        void serverHandleClient();
+
+        void serverOn(const String &uri, int method, int code, const char* contentType, const char* content);
+        void serverOnPost(const String &uri, int method, int code, const char* contentType, const char* content);
+        void serverOnConfig(const String &uri, int method, int code, const char* contentType, const char* content);
+        void serverOnNotFound();
+
+        protected:
+        WiFiServer *server;
     };
 }
-
-#endif
