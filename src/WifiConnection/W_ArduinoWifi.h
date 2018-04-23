@@ -23,5 +23,18 @@ namespace waffle
 
 		// disconnect Access Point
 		bool softAPdisconnect(bool wifioff);
+
+        String SSID(uint8_t networkItem);
+
+        void makeServer(int port);
+
+        void beginServer();
+
+        void stopServer();
+
+        void serverHandleClient();
+
+        protected:
+        WiFiServer *server;
     };
 }

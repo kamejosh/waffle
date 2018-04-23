@@ -17,11 +17,16 @@
 class Hotspot : public State {
 
 	private:
-		bool startHotspot();
-		bool stopHotspot();
 		Timer *exitStateTimer;
 		waffle::IWiFi *wifi;
 		bool connected;
+		
+		bool startHotspot();
+		void stopHotspot();
+		void defineRoutes();
+		void openHotspot();
+		String getSSIDsAsJSON(int numberOfNetworks);
+		bool isSSIDUnique(String *ssids, String ssid);
 
 	public:
 		Hotspot();
@@ -29,7 +34,6 @@ class Hotspot : public State {
 		void onEnter();
 		void onExit();
 		int loop( unsigned long millisSinceLastTick );
-
 };
 
 #endif

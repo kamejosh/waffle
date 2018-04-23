@@ -1,4 +1,5 @@
 #include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
 #include "IWiFi.h"
 
 namespace waffle
@@ -22,5 +23,18 @@ namespace waffle
 
 		// disconnect Access Point
 		bool softAPdisconnect(bool wifioff);
+
+        String SSID(uint8_t networkItem);
+
+        void makeServer(int port);
+
+        void beginServer();
+
+        void stopServer();
+
+        void serverHandleClient();
+
+        protected:
+        ESP8266WebServer *server;
     };
 }

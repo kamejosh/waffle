@@ -31,4 +31,29 @@ bool ArduinoWiFi::softAPdisconnect(bool wifioff)
 	return false;
 }
 
+String ArduinoWiFi::SSID(uint8_t networkItem)
+{
+	return "";
+}
+
+void ArduinoWiFi::makeServer(int port)
+{
+
+}
+
+void ArduinoWiFi::beginServer()
+{
+
+}
+
+void ArduinoWiFi::stopServer()
+{
+
+}
+
+void ArduinoWiFi::serverHandleClient()
+{
+	
+}
+
 #endif

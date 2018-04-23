@@ -9,7 +9,9 @@ using namespace waffle;
 
 EspWiFi::EspWiFi() : IWiFi(){}
 
-EspWiFi::~EspWiFi(){}
+EspWiFi::~EspWiFi(){
+    delete(server);
+}
 
 void EspWiFi::disconnect(bool wifioff)
 {
@@ -29,5 +31,30 @@ bool EspWiFi::softAPConfig(IPAddress local_ip, IPAddress gateway, IPAddress subn
 bool EspWiFi::softAPdisconnect(bool wifioff) {
 	return WiFi.softAPdisconnect(wifioff);
 };
+
+String EspWiFi::SSID(uint8_t networkItem)
+{
+    return WiFi.SSID(networkItem);
+}
+
+void EspWiFi::makeServer(int port)
+{
+    this->server = new ESP8266WebServer(port);
+}
+
+void EspWiFi::beginServer()
+{
+    this->server->begin();
+}
+
+void EspWiFi::stopServer()
+{
+    this->server->stop();
+}
+
+void EspWiFi::serverHandleClient()
+{
+    this->server->handleClient();
+}
 
 #endif

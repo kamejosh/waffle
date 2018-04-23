@@ -4,16 +4,23 @@ Hotspot::Hotspot(){
 	this->exitStateTimer = new Timer(EXIT_HOTSPOT_AFTER_MILLISECONDS_IDLE);
 	this->connected = false;
 	this->wifi = new WIFI_CLASS();
+	this->wifi->makeServer(80);
 }
 
 Hotspot::~Hotspot(){
 	delete(exitStateTimer);
+	delete(wifi);
 }
 
 void Hotspot::onEnter(){
 	this->connected = false;
+
+	this->wifi->disconnect(true);
 	this->startHotspot();
 
+	this->defineRoutes();
+
+	this->wifi->beginServer();
 }
 
 void Hotspot::onExit(){
@@ -37,7 +44,7 @@ int Hotspot::loop( unsigned long millisSinceLastTick ){
 	}
 
 	// otherwise handle waiting calls
-	// TODO handle server
+	this->wifi->serverHandleClient();
 
 	return NO_SIGNAL;
 }
@@ -54,18 +61,6 @@ bool Hotspot::startHotspot(){
 		return false;
 	}
 
-	// TODO change to generic implementation
-	/*// define IP addresses
-	IPAddress local_IP(HOTSPOT_IP);
-	IPAddress gateway(HOTSPOT_GATEWAY);
-	IPAddress subnet(HOTSPOT_SUBNET);
-
-	// set fixed ip address
-	if( !WiFi.softAPConfig(local_IP, gateway, subnet) ){
-		Serial.println("Soft AP configuration failed!");
-		return false;
-	}*/
-
 	const char* ssid = HOTSPOT_SSID;
 	const char* password = HOTSPOT_PASSWD;
 
@@ -75,28 +70,56 @@ bool Hotspot::startHotspot(){
 		return false;
 	}
 
-	// TODO change to generic implementation
-	/*if( !WiFi.softAP( apssid, appassword ) ){
-		Serial.println("Soft AP failed!");
-		return false;
-	}*/
-
 	return true;
-
 }
 
-bool Hotspot::stopHotspot(){
+void Hotspot::stopHotspot(){
+	this->wifi->stopServer();
 
 	this->wifi->softAPdisconnect(true);
 
 	this->wifi->disconnect(true);
+}
 
-	// TODO change to generic implementation
-	/*
-	// stop soft AP mode
-	WiFi.softAPdisconnect(true);
+void Hotspot::defineRoutes()
+{
 
-	// disconnect wifi
-	WiFi.disconnect(true);
-	*/
+}
+
+String Hotspot::getSSIDsAsJSON(int numberOfNetworks){
+	String ssids[numberOfNetworks];
+	String jsonString = "[";
+
+  for(int i = 0; i<numberOfNetworks; i++){
+      if(isSSIDUnique(ssids, this->wifi->SSID(i))){
+				if(i > 0){
+					jsonString += ",";
+				}
+        jsonString += "\"";
+        jsonString += this->wifi->SSID(i);
+				jsonString += "\"";
+      }
+  }
+
+	jsonString += "]";
+	return jsonString;
+}
+
+bool Hotspot::isSSIDUnique(String *ssids, String ssid){
+    int newIndex = sizeof(ssids);
+    for(uint8_t i = 0; i < sizeof(ssids); i++)
+    {
+        if(ssids[i] == "")
+        {
+            newIndex = i;
+            break;
+        }
+        if(ssids[i] == ssid)
+        {
+            return false;
+        }
+    }
+
+    ssids[newIndex] = ssid;
+    return true;
 }

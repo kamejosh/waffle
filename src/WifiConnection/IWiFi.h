@@ -24,6 +24,16 @@ namespace waffle
 
         // disconnect Access Point
         virtual bool softAPdisconnect(bool wiifoff = false) = 0;
+
+        virtual String SSID(uint8_t networkItem) = 0;
+
+        virtual void makeServer(int port = 80) = 0;
+
+        virtual void beginServer() = 0;
+
+        virtual void stopServer() = 0;
+
+        virtual void serverHandleClient() = 0;
     };
 }
 
