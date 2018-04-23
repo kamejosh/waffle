@@ -38,4 +38,5 @@ int App::loop( unsigned long millisSinceLastTick ){
 	// and return in the meanwhile.
 	// This is neccessary because the framework will take care of other tasks
 	// between each App::loop call!
+	return 0;
 }
