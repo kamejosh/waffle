@@ -7,59 +7,27 @@
 //set project namespace
 using namespace waffle;
 
-//class specific defines
-static const unsigned int MAX_CONNECTION_ATTEMPTS = 10;
+EspWiFi::EspWiFi() : IWiFi(){}
 
-EspWiFi::EspWiFi() : IWiFi()
-{
-    m_client = new WiFiClient();
-}
-
-EspWiFi::EspWiFi(char* ssid, char* pwd) : IWiFi(ssid, pwd)
-{
-    m_client = new WiFiClient();
-}
-
-EspWiFi::~EspWiFi()
-{
-    delete m_client;
-}
-
-bool EspWiFi::connect()
-{
-    Serial.print("Connecting to WiFi..");
-    WiFi.begin(m_ssid, m_pwd);
-
-    unsigned int connectionAttempts = 0;
-    while (WiFi.status() != WL_CONNECTED)
-    {
-      //delay(500);
-      Serial.print(".");
-      ++connectionAttempts;
-
-      if(connectionAttempts >= MAX_CONNECTION_ATTEMPTS)
-      {
-        Serial.println("Maximum number of connection attempts exceeded. Abort.");
-        return false;
-      }
-    }
-
-    Serial.println("\nConnection to WiFi successful!");
-    return true;
-}
+EspWiFi::~EspWiFi(){}
 
 void EspWiFi::disconnect(bool wifioff)
 {
-
+    WiFi.disconnect(wifioff);
 }
 
 bool EspWiFi::softAP(const char* ssid, const char* passphrase, int channel, int ssid_hidden, int max_connection){
-	return true; // TODO
+	return WiFi.softAP(ssid, passphrase, channel, ssid_hidden, max_connection);
 };
 
+bool EspWiFi::softAPConfig(IPAddress local_ip, IPAddress gateway, IPAddress subnet)
+{
+    return WiFi.softAPConfig(local_ip, gateway, subnet);
+}
+
 // disconnect Access Point
-void EspWiFi::softAPdisconnect(bool wiifoff) {
-	 // TODO
+bool EspWiFi::softAPdisconnect(bool wifioff) {
+	return WiFi.softAPdisconnect(wifioff);
 };
 
 #endif

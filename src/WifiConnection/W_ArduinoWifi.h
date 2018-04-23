@@ -10,21 +10,18 @@ namespace waffle
         // standard constructor
 		ArduinoWiFi();
 
-        // constructor with ssid and password to allow a connection
-		ArduinoWiFi(char* ssid, char* pwd);
-
         // destructor
         virtual ~ArduinoWiFi();
 
-		// connect to the set WiFi, returns true on success, returns false on fail.
-        bool connect();
-
-        // disconnect from WiFi
+		// disconnect from WiFi
         void disconnect(bool wifioff);
 
 		bool softAP(const char* ssid, const char* passphrase, int channel, int ssid_hidden, int max_connection);
 
+        // configure Access Point
+        bool softAPConfig(IPAddress local_ip, IPAddress gateway, IPAddress subnet);
+
 		// disconnect Access Point
-		void softAPdisconnect(bool wiifoff);
+		bool softAPdisconnect(bool wifioff);
     };
 }

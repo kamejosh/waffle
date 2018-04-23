@@ -6,34 +6,29 @@
 //set project namespace
 using namespace waffle;
 
-ArduinoWiFi::ArduinoWiFi() : IWiFi()
+ArduinoWiFi::ArduinoWiFi() : IWiFi(){}
+
+ArduinoWiFi::~ArduinoWiFi(){}
+
+void ArduinoWiFi::disconnect(bool wifioff)
 {
 
 }
 
-ArduinoWiFi::ArduinoWiFi(char* ssid, char* pwd) : IWiFi(ssid, pwd)
+bool ArduinoWiFi::softAP(const char* ssid, const char* passphrase, int channel, int ssid_hidden, int max_connection)
 {
-
+	return false;
 }
 
-ArduinoWiFi::~ArduinoWiFi()
+bool ArduinoWiFi::softAPConfig(IPAddress local_ip, IPAddress gateway, IPAddress subnet)
 {
-
-}
-
-// connect to the set WiFi, returns true on success, returns false on fail.
-bool ArduinoWiFi::connect(){
-	return true;
-}
-
-// disconnect from WiFi
-void ArduinoWiFi::disconnect(bool wifioff){}
-
-bool ArduinoWiFi::softAP(const char* ssid, const char* passphrase, int channel, int ssid_hidden, int max_connection){
-	return true;
+	return false;
 }
 
 // disconnect Access Point
-void ArduinoWiFi::softAPdisconnect(bool wiifoff){}
+bool ArduinoWiFi::softAPdisconnect(bool wifioff)
+{
+	return false;
+}
 
 #endif

@@ -9,28 +9,18 @@ namespace waffle
         // standard constructor
 		EspWiFi();
 
-        // constructor with ssid and password to allow a connection
-		EspWiFi(char* ssid, char* pwd);
-
         // destructor
         ~EspWiFi();
-
-        // connect to the set WiFi, returns true on success, returns false on fail.
-        bool connect();
 
         // disconnect from WiFi
         void disconnect(bool wifioff);
 
 		bool softAP(const char* ssid, const char* passphrase, int channel, int ssid_hidden, int max_connection);
 
+        // configure Access Point
+        bool softAPConfig(IPAddress local_ip, IPAddress gateway, IPAddress subnet);
+
 		// disconnect Access Point
-		void softAPdisconnect(bool wiifoff);
-
-protected:
-        //Library WiFi-Client
-        WiFiClient* m_client;
-
-
-
+		bool softAPdisconnect(bool wifioff);
     };
 }

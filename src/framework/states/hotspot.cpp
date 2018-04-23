@@ -44,6 +44,16 @@ int Hotspot::loop( unsigned long millisSinceLastTick ){
 
 bool Hotspot::startHotspot(){
 
+	IPAddress local_IP(HOTSPOT_IP);
+	IPAddress gateway(HOTSPOT_GATEWAY);
+	IPAddress subnet(HOTSPOT_SUBNET);
+
+	if(!this->wifi->softAPConfig(local_IP, gateway, subnet))
+	{
+		Serial.println("Soft AP configuration failed!");
+		return false;
+	}
+
 	// TODO change to generic implementation
 	/*// define IP addresses
 	IPAddress local_IP(HOTSPOT_IP);
@@ -59,6 +69,12 @@ bool Hotspot::startHotspot(){
 	const char* ssid = HOTSPOT_SSID;
 	const char* password = HOTSPOT_PASSWD;
 
+	if( !this->wifi->softAP(ssid, password) )
+	{
+		Serial.println("Soft AP failed!");
+		return false;
+	}
+
 	// TODO change to generic implementation
 	/*if( !WiFi.softAP( apssid, appassword ) ){
 		Serial.println("Soft AP failed!");
@@ -70,6 +86,10 @@ bool Hotspot::startHotspot(){
 }
 
 bool Hotspot::stopHotspot(){
+
+	this->wifi->softAPdisconnect(true);
+
+	this->wifi->disconnect(true);
 
 	// TODO change to generic implementation
 	/*
