@@ -27,6 +27,8 @@ namespace waffle
 
         virtual String SSID(uint8_t networkItem) = 0;
 
+        virtual int8_t scanNetworks() = 0;
+
         virtual void makeServer(int port = 80) = 0;
 
         virtual void beginServer() = 0;
@@ -34,6 +36,11 @@ namespace waffle
         virtual void stopServer() = 0;
 
         virtual void serverHandleClient() = 0;
+
+        virtual void serverOn(const String &uri, int method, int code, const char* contentType, const char* content) = 0;
+        virtual void serverOnPost(const String &uri, int method, int code, const char* contentType, const char* content) = 0;
+        virtual void serverOnConfig(const String &uri, int method, int code, const char* contentType, const char* content) = 0;
+        virtual void serverOnNotFound() = 0;
     };
 }
 

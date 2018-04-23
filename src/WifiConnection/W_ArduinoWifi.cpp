@@ -36,6 +36,11 @@ String ArduinoWiFi::SSID(uint8_t networkItem)
 	return "";
 }
 
+int8_t ArduinoWiFi::scanNetworks()
+{
+	return 0;
+}
+
 void ArduinoWiFi::makeServer(int port)
 {
 
@@ -53,7 +58,27 @@ void ArduinoWiFi::stopServer()
 
 void ArduinoWiFi::serverHandleClient()
 {
-	
+
+}
+
+void ArduinoWiFi::serverOn(const String &uri, int method, int code, const char* contentType, const char* content)
+{
+
+}
+
+void ArduinoWiFi::serverOnPost(const String &uri, int method, int code, const char* contentType, const char* content)
+{
+
+}
+
+void ArduinoWiFi::serverOnConfig(const String &uri, int method, int code, const char* contentType, const char* content)
+{
+
+}
+
+void ArduinoWiFi::serverOnNotFound()
+{
+
 }
 
 #endif

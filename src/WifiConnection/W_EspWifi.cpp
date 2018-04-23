@@ -37,6 +37,11 @@ String EspWiFi::SSID(uint8_t networkItem)
     return WiFi.SSID(networkItem);
 }
 
+int8_t EspWiFi::scanNetworks()
+{
+    return WiFi.scanNetworks();
+}
+
 void EspWiFi::makeServer(int port)
 {
     this->server = new ESP8266WebServer(port);
@@ -55,6 +60,32 @@ void EspWiFi::stopServer()
 void EspWiFi::serverHandleClient()
 {
     this->server->handleClient();
+}
+
+void EspWiFi::serverOn(const String &uri, int method, int code, const char* contentType, const char* content)
+{
+    this->server->on(uri, HTTPMethod(method), [&](){
+        this->server->send(code, contentType, content);
+    });
+}
+
+void EspWiFi::serverOnPost(const String &uri, int method, int code, const char* contentType, const char* content)
+{
+    this->server->on(uri, HTTPMethod(method), [&](){
+        this->server->send_P(code, contentType, content);
+    });
+}
+
+void EspWiFi::serverOnConfig(const String &uri, int method, int code, const char* contentType, const char* content)
+{
+
+}
+
+void EspWiFi::serverOnNotFound()
+{
+    this->server->onNotFound([this](){
+		this->server->send(404, "text/plain", "404 - Not found");
+	});
 }
 
 #endif

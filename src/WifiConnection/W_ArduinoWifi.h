@@ -26,6 +26,8 @@ namespace waffle
 
         String SSID(uint8_t networkItem);
 
+        int8_t scanNetworks();
+
         void makeServer(int port);
 
         void beginServer();
@@ -33,6 +35,11 @@ namespace waffle
         void stopServer();
 
         void serverHandleClient();
+
+        void serverOn(const String &uri, int method, int code, const char* contentType, const char* content);
+        void serverOnPost(const String &uri, int method, int code, const char* contentType, const char* content);
+        void serverOnConfig(const String &uri, int method, int code, const char* contentType, const char* content);
+        void serverOnNotFound();
 
         protected:
         WiFiServer *server;
