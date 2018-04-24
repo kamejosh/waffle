@@ -66,7 +66,7 @@ void ArduinoWiFi::serverOn(const String &uri, int method, int code, const char* 
 
 }
 
-void ArduinoWiFi::serverOnPost(const String &uri, int method, int code, const char* contentType, const char* content)
+void ArduinoWiFi::serverOnPost(const String &uri, int method, int code, const char* contentType, String content)
 {
 
 }

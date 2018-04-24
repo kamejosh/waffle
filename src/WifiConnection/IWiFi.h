@@ -38,7 +38,7 @@ namespace waffle
         virtual void serverHandleClient() = 0;
 
         virtual void serverOn(const String &uri, int method, int code, const char* contentType, const char* content) = 0;
-        virtual void serverOnPost(const String &uri, int method, int code, const char* contentType, const char* content) = 0;
+        virtual void serverOnPost(const String &uri, int method, int code, const char* contentType, String content) = 0;
         virtual void serverOnConfig(const String &uri, int method, int code, const char* contentType, const char* content) = 0;
         virtual void serverOnNotFound() = 0;
     };

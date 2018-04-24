@@ -64,15 +64,15 @@ void EspWiFi::serverHandleClient()
 
 void EspWiFi::serverOn(const String &uri, int method, int code, const char* contentType, const char* content)
 {
-    this->server->on(uri, HTTPMethod(method), [&](){
-        this->server->send(code, contentType, content);
+    this->server->on(uri, HTTP_GET, [=](){
+        this->server->send_P(code, contentType, content);
     });
 }
 
-void EspWiFi::serverOnPost(const String &uri, int method, int code, const char* contentType, const char* content)
+void EspWiFi::serverOnPost(const String &uri, int method, int code, const char* contentType, String content)
 {
-    this->server->on(uri, HTTPMethod(method), [&](){
-        this->server->send_P(code, contentType, content);
+    this->server->on(uri, HTTP_GET, [=](){
+        this->server->send(code, contentType, content.c_str());
     });
 }
 
