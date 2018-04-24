@@ -83,14 +83,15 @@ void Hotspot::stopHotspot(){
 
 void Hotspot::defineRoutes()
 {
-	this->wifi->serverOnPost("/", 1, 200, "text/html", CONFIG_HTML);
+	this->wifi->serverOn("/", 1, 200, "text/html", CONFIG_HTML);
 
-	this->wifi->serverOnPost("/app.css", 1, 200, "text/css", CONFIG_CSS);
+	this->wifi->serverOn("/app.css", 1, 200, "text/css", CONFIG_CSS);
 
-	this->wifi->serverOnPost("/app.js", 1, 200, "text/javascript", CONFIG_JS);
+	this->wifi->serverOn("/app.js", 1, 200, "text/javascript", CONFIG_JS);
 
 	int numberOfNetworks = this->wifi->scanNetworks();
-	this->wifi->serverOn("/ssids", 1, 200, "application/json", getSSIDsAsJSON(numberOfNetworks).c_str());
+	Serial.println(getSSIDsAsJSON(numberOfNetworks));
+	this->wifi->serverOnPost("/ssids", 1, 200, "application/json", getSSIDsAsJSON(numberOfNetworks));
 
 	this->wifi->serverOn("/ping", 1, 200, "application/json", "\"pong\"");
 
