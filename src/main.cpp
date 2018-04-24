@@ -27,7 +27,10 @@ void setup() {
 	//persistentMemory = new persistentMemory();
 	//persistentMemory->load(); // load from flash or EEPROM memory
 	Serial.begin(9600);
+	
+	#ifndef AVR
 	Serial.setDebugOutput(true);
+	#endif
 	
 	mainStatemachine = new StateMachine();
 	STATE_HOTSPOT = mainStatemachine->registerState( new Hotspot() );
